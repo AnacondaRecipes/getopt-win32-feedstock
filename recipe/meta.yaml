@@ -1,6 +1,6 @@
 {% set name = "getopt-win32" %}
 {% set version = "0.1" %}
-
+# Note: This recipe needs the v140 platform toolset installed for visual studio to build.
 package:
   name: {{ name }}
   version: {{ version }}
