@@ -1,6 +1,5 @@
 {% set name = "getopt-win32" %}
 {% set version = "0.1" %}
-# Note: This recipe needs the v140 platform toolset installed for visual studio to build.
 package:
   name: {{ name }}
   version: {{ version }}
@@ -18,6 +17,8 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - cmake
+    - ninja-base
 
 test:
   commands:
@@ -32,6 +33,7 @@ about:
   license_file: LICENSE
   summary: 'A port of getopt for Visual C++'
   dev_url: https://github.com/libimobiledevice-win32/getopt
+  doc_url: https://github.com/libimobiledevice-win32/getopt/blob/master/article.md
 
 extra:
   recipe-maintainers:

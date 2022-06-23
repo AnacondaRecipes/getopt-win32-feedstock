@@ -1,9 +1,37 @@
-set getopt_build_mode=Release
-set getopt_build_arch=x%ARCH%
+@echo ON
+setlocal enabledelayedexpansion
 
-msbuild /p:Configuration=%getopt_build_mode%
-if errorlevel 1 exit 1
+:: Custom cmake file
+copy %RECIPE_DIR%\CMakeLists.txt %SRC_DIR%\
 
-copy %getopt_build_arch%\%getopt_build_mode%\getopt.dll %LIBRARY_BIN%
-copy %getopt_build_arch%\%getopt_build_mode%\getopt.lib %LIBRARY_LIB%
-copy %SRC_DIR%\getopt.h                                 %LIBRARY_INC%
+:: cmd
+echo "Building %PKG_NAME%."
+
+:: Isolate the build.
+mkdir Build-%PKG_NAME%
+cd Build-%PKG_NAME%
+if errorlevel 1 exit /b 1
+
+:: Generate the build files.
+echo "Generating the build files..."
+cmake .. %CMAKE_ARGS% ^
+      -G"Ninja" ^
+      -DCMAKE_PREFIX_PATH=%LIBRARY_PREFIX% ^
+      -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
+      -DCMAKE_BUILD_TYPE=Release
+type ./CMakeFiles/CMakeOutput.log
+::if errorlevel 1 exit /b 1
+
+:: Build.
+echo "Building..."
+ninja
+if errorlevel 1 exit /b 1
+
+:: Install.
+echo "Installing..."
+ninja install
+if errorlevel 1 exit /b 1
+
+:: Error free exit.
+echo "Error free exit!"
+exit 0
