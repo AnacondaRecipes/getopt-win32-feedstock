@@ -1,21 +1,24 @@
 {% set name = "getopt-win32" %}
-{% set version = "0.1" %}
+{% set version = "1.0" %}
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://github.com/libimobiledevice-win32/getopt/archive/{{ version }}.tar.gz
-  sha256: 7e9653ecd58ce4149959bf6a905f4ab2f7889856fe1218afbf84284074f9e549
+  url: https://github.com/libimobiledevice-{{ name.split('-')[1] }}/{{ name.split('-')[0] }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: fdf7c7b9c12b38d1de0d6e4945b635a0e4ede10e5640007b2c8c0deaf1738957
+  patches:
+    - patches/0001-add-install-pathes-in-the-cmake.patch
 
 build:
   number: 0
-  skip: true  # [not win]
   run_exports:
     - {{ pin_subpackage('getopt-win32', max_pin='x.x.x') }}
+  skip: true  # [not win]
 
 requirements:
   build:
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - cmake
     - ninja-base
@@ -31,7 +34,15 @@ about:
   license: LGPL-3.0-only
   license_family: GPL
   license_file: LICENSE
-  summary: 'A port of getopt for Visual C++'
+  summary: A port of getopt for Visual C++
+  description: |
+    This repository contains a port of getopt which can be used with Visual C++
+    and clang on Windows. It is intended to be used with vcpkg and Conan.
+
+    The Visual C++ port was originally done by Ludvik Jerabek, and described
+    in the Full getopt Port for Unicode and Multibyte Microsoft Visual C, C++,
+    or MFC Projects article. This repository contains a copy of that code
+    and the article.
   dev_url: https://github.com/libimobiledevice-win32/getopt
   doc_url: https://github.com/libimobiledevice-win32/getopt/blob/master/article.md
 

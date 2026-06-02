@@ -1,9 +1,6 @@
 @echo ON
 setlocal enabledelayedexpansion
 
-:: Custom cmake file
-copy %RECIPE_DIR%\CMakeLists.txt %SRC_DIR%\
-
 :: cmd
 echo "Building %PKG_NAME%."
 
@@ -18,7 +15,9 @@ cmake .. %CMAKE_ARGS% ^
       -G"Ninja" ^
       -DCMAKE_PREFIX_PATH=%LIBRARY_PREFIX% ^
       -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
+      -DBUILD_SHARED_LIBS=ON ^
       -DCMAKE_BUILD_TYPE=Release
+
 type ./CMakeFiles/CMakeOutput.log
 ::if errorlevel 1 exit /b 1
 

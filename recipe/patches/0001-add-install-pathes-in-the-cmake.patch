@@ -1,0 +1,28 @@
+From a5d2517088400246b7862cd9fd156325d7653d6b Mon Sep 17 00:00:00 2001
+From: Andrii Osipov <aosipov@anaconda.com>
+Date: Tue, 2 Jun 2026 02:46:38 -0700
+Subject: [PATCH] add install pathes in the cmake
+
+---
+ CMakeLists.txt | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 871614a..b5c6a78 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -14,4 +14,10 @@ add_library(getopt getopt.c)
+ 
+ set_target_properties(getopt PROPERTIES PUBLIC_HEADER getopt.h)
+ 
+-install(TARGETS getopt)
++install(TARGETS getopt
++    RUNTIME DESTINATION "bin"
++    ARCHIVE DESTINATION "lib"
++    LIBRARY DESTINATION "lib"
++)
++
++install(FILES getopt.h DESTINATION include)
+-- 
+2.39.5 (Apple Git-154)
+
